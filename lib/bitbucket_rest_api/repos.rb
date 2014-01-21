@@ -6,11 +6,12 @@ module BitBucket
 
     # Load all the modules after initializing Repos to avoid superclass mismatch
     autoload_all 'bitbucket_rest_api/repos',
-                 :Changesets  => 'changesets',
-                 :Keys        => 'keys',
-                 :Services    => 'services',
-                 :Following   => 'following',
-                 :Sources     => 'sources'
+                 :Changesets   => 'changesets',
+                 :Keys         => 'keys',
+                 :Services     => 'services',
+                 :Following    => 'following',
+                 :Sources      => 'sources',
+                 :PullRequests => 'pullrequests'
 
     DEFAULT_REPO_OPTIONS = {
         "website"         => "",
@@ -62,6 +63,11 @@ module BitBucket
     # Access to Repos::Services API
     def services
       @services ||= ApiFactory.new 'Repos::Services'
+    end
+
+    # Access to Repos::PullRequests API
+    def pullrequests
+      @pullrequests ||= ApiFactory.new 'Repos::PullRequests'
     end
 
     # List branches
