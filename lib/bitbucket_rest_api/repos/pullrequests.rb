@@ -54,6 +54,36 @@ module BitBucket
       get_request("/repositories/#{user}/#{repo.downcase}/pullrequests/activity", params, get_v2_options)
     end
 
+    # Approve a pull request on a repository
+    #
+    # = Examples
+    #  @bitbucket = BitBucket.new
+    #  @bitbucket.repos.pullrequests.approve 'user-name', 'repo-name', 123
+    #
+    def approve(user_name, repo_name, pr_id, params = {})
+      _update_user_repo_params(user_name, repo_name)
+      _validate_user_repo_params(user, repo) unless user? && repo?
+      _validate_presence_of pr_id
+      normalize! params
+
+      post_request("/repositories/#{user}/#{repo.downcase}/pullrequests/#{pr_id}/approve", params, get_v2_options)
+    end
+
+    # Unapprove a pull request on a repository
+    #
+    # = Examples
+    #  @bitbucket = BitBucket.new
+    #  @bitbucket.repos.pullrequests.unapprove 'user-name', 'repo-name', 123
+    #
+    def unapprove(user_name, repo_name, pr_id, params = {})
+      _update_user_repo_params(user_name, repo_name)
+      _validate_user_repo_params(user, repo) unless user? && repo?
+      _validate_presence_of pr_id
+      normalize! params
+
+      delete_request("/repositories/#{user}/#{repo.downcase}/pullrequests/#{pr_id}/approve", params, get_v2_options)
+    end
+
     private
 
     def get_v2_options
