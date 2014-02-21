@@ -40,6 +40,21 @@ module BitBucket
     end
     alias :find :get
 
+    # Updates a pull request data
+    #
+    # = Examples
+    #  @bitbucket = BitBucket.new
+    #  @bitbucket.repos.pullrequests.update 'user-name', 'repo-name', 123, title: "New title", description: "New description"
+    #
+    def update(user_name, repo_name, pr_id, params = {})
+      _update_user_repo_params(user_name, repo_name)
+      _validate_user_repo_params(user, repo) unless user? && repo?
+      _validate_presence_of pr_id
+      normalize! params
+
+      put_request("/repositories/#{user}/#{repo.downcase}/pullrequests/#{pr_id}", params, get_v2_options)
+    end
+
     # Gets the activity for the repo's pull requests
     #
     # = Examples
